@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-pagina="home">
+
+  <!-- I testi di questa pagina si cambiano in sito.js (e progetti.js per i lavori).
+       Intestazione, fascia contatti e piè di pagina vengono creati da js/main.js. -->
+
+  <header class="header" id="header"></header>
+
+  <main>
+
+    <!-- ===== HERO: reel a tutto schermo con i titoli sopra ===== -->
+    <section class="hero">
+      <div class="hero-bg" id="showreel" aria-hidden="true"></div>
+      <p class="label" data-reveal data-sito="home.etichetta"></p>
+      <h1 class="display" data-reveal data-sito="home.titolo"></h1>
+      <div class="hero-foot" data-reveal>
+        <p data-sito="home.sottotitolo"></p>
+        <a href="#chi-sono" class="scroll-hint"><span data-ui="scorri"></span> <span>↓</span></a>
+      </div>
+    </section>
+
+    <!-- ===== CHI SONO ===== -->
+    <section id="chi-sono" class="section">
+      <div class="intro">
+        <p class="label" data-reveal data-ui="chiSono"></p>
+        <div data-reveal>
+          <p class="lead" data-sito="home.chiSono"></p>
+          <p class="more"><a href="#contatti" class="arrow-link"><span data-sito="home.chiSonoBottone"></span> <span>→</span></a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATEGORIE (da progetti.js) ===== -->
+    <section id="servizi" class="section">
+      <div class="section-head">
+        <p class="label" data-reveal data-ui="servizi"></p>
+        <h2 class="title" data-reveal data-sito="home.serviziTitolo"></h2>
+      </div>
+      <ul class="rows" id="categorie"></ul>
+    </section>
+
+    <!-- ===== LAVORI IN EVIDENZA (da progetti.js) ===== -->
+    <section id="lavori" class="section">
+      <div class="section-head">
+        <p class="label" data-reveal data-ui="lavoriSelezionati"></p>
+        <h2 class="title" data-reveal data-sito="home.lavoriTitolo"></h2>
+      </div>
+      <div class="work-grid" id="lavori-in-evidenza"></div>
+      <p class="more" style="margin-top:56px" data-reveal><a href="lavori.html" class="arrow-link"><span data-ui="tuttiLavori"></span> <span>→</span></a></p>
+    </section>
+
+    <!-- ===== CITAZIONE (sparisce se in sito.js è vuota) ===== -->
+    <section class="section" data-se="home.citazione">
+      <div class="intro">
+        <p class="label" data-reveal data-ui="diconoDiMe"></p>
+        <div data-reveal>
+          <p class="title quote">“<span data-sito="home.citazione"></span>”</p>
+          <p class="quote-by" data-sito="home.citazioneAutore"></p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="cta" id="contatti"></section>
+  <footer class="footer" id="footer"></footer>
+
+  <script src="sito.js"></script>
+  <script src="progetti.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

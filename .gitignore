@@ -1,0 +1,12 @@
+# File che restano sul computer ma NON vengono pubblicati su GitHub
+
+# vecchia versione dello showreel (il sito usa Showreel_sito.mp4)
+video/Showreel.mp4
+
+# copia di sicurezza dello stile prima della nuova palette
+css/style-backup-palette-originale.css
+
+# file di sistema
+Thumbs.db
+desktop.ini
+.DS_Store
