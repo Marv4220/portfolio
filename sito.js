@@ -47,7 +47,7 @@ const SITO = {
      per un attimo il logo e i pulsanti.
      Attenzione: maiuscole e minuscole devono corrispondere al nome del file. */
   showreel: {
-    media: "video/Showreel_sito.mp4",
+    media: "video/showreel.mp4",
     poster: "",                         // fotogramma JPG mostrato mentre il video carica (facoltativo)
   },
 
