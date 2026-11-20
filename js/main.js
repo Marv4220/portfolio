@@ -270,6 +270,38 @@ function osserva(root = document) {
 }
 
 
+/* ---------- Video in loop ----------
+   Alcuni browser (Opera, modalità risparmio energetico o dati) non avviano
+   da soli i video, anche se muti. Qui li avviamo esplicitamente e, se il
+   browser rifiuta, riproviamo al primo tocco, clic o tasto del visitatore. */
+
+function avviaVideo(root = document) {
+  root.querySelectorAll('video[autoplay]').forEach(v => {
+    v.muted = true;
+    v.defaultMuted = true;
+    v.playsInline = true;
+    const prova = () => {
+      const p = v.play();
+      if (p && p.catch) p.catch(() => { /* bloccato: riproveremo al primo gesto */ });
+    };
+    if (v.readyState >= 2) prova();
+    else v.addEventListener('canplay', prova, { once: true });
+  });
+}
+
+function riprendiVideo() {
+  document.querySelectorAll('video[autoplay]').forEach(v => {
+    if (v.paused) v.play().catch(() => {});
+  });
+}
+['pointerdown', 'touchstart', 'keydown', 'click'].forEach(ev =>
+  window.addEventListener(ev, riprendiVideo, { passive: true }));
+// Quando si torna sulla scheda del sito, i video riprendono
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) riprendiVideo();
+});
+
+
 /* ---------- HOME ---------- */
 
 const showreel = document.getElementById('showreel');
@@ -278,6 +310,8 @@ if (showreel && reel && reel.media) {
   showreel.innerHTML = mediaHTML(reel.media, { alt: '', sfondo: true, poster: reel.poster });
   const img = showreel.querySelector('img');
   if (img) img.loading = 'eager';
+  const vid = showreel.querySelector('video');
+  if (vid) vid.preload = 'auto';   // lo sfondo si carica subito
 }
 
 const righeCategorie = document.getElementById('categorie');
@@ -331,6 +365,7 @@ if (griglia) {
     const q = params.toString();
     history.replaceState(null, '', location.pathname + (q ? '?' + q : ''));
     osserva(griglia);
+    avviaVideo(griglia);
   }
 
   filtri.addEventListener('click', e => {
@@ -426,6 +461,7 @@ if (paginaProgetto) {
 /* ---------- Comune a tutte le pagine ---------- */
 
 osserva();
+avviaVideo();
 
 // Anno automatico nel piè di pagina
 document.querySelectorAll('.anno').forEach(el => {
