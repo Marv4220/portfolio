@@ -61,7 +61,7 @@ const SITO = {
     },
     titolo: {
       en: "Make *everything,*\n**from nothing.**",
-      it: "Spazi che *ancora non esistono,*\n**resi reali.**",
+      it: "Creare *il mondo,*\n**dal nulla.**",
     },
     sottotitolo: {
       en: "ArchViz, Product Visualization, 3D modeling\nand much more...",
