@@ -329,6 +329,136 @@ if (righeCategorie) {
   }).join('');
 }
 
+/* Carosello: copertine di tutti i progetti in ordine casuale, scorrimento
+   automatico infinito. Ai lati le immagini sfumano e rimpiccioliscono. */
+const traccia = document.getElementById('carosello-traccia');
+if (traccia) {
+  const conCopertina = tutti.filter(p => p.copertina);
+  if (!conCopertina.length) {
+    traccia.parentElement.hidden = true;
+  } else {
+    // Mescola (Fisher-Yates)
+    const lista = conCopertina.slice();
+    for (let i = lista.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [lista[i], lista[j]] = [lista[j], lista[i]];
+    }
+    const voce = p => `
+      <a href="${linkProgetto(p)}" class="carousel-item" aria-label="${esc(t(p.titolo))}">
+        ${mediaHTML(p.copertina, { alt: t(p.titolo), sfondo: true })}
+      </a>`;
+    // Due copie in fila: quando la prima è uscita del tutto si riparte da capo senza salti
+    traccia.innerHTML = lista.map(voce).join('') + lista.map(voce).join('');
+    traccia.querySelectorAll('img').forEach(img => { img.loading = 'eager'; });
+
+    const sezione = traccia.parentElement;
+    const voci = [...traccia.children];
+    const VELOCITA = 40;          // pixel al secondo
+    const SCALA_MIN = 0.7;        // dimensione ai lati
+    const OPACITA_MIN = 0.08;     // opacità ai bordi estremi
+    const MENO_OPACITA_LATI = 0.2; // le card ai lati hanno il 20% di opacità in meno (il centro resta pieno)
+    const ZOOM = 2;               // ingrandimento della card sotto il mouse (2 = 200%)
+    const RAGGIO = 0.8;           // ampiezza del gradiente sulle vicine, in card (più basso = più rapido)
+    const REATTIVITA = 7;         // quanto in fretta le card seguono il mouse (più basso = più morbido)
+    const FRENATA = 3;            // quanto in fretta lo scorrimento si ferma e riparte
+    const fermo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const conMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let x = 0, ultimo = 0, visibile = true, metà = 0, larg = 0, passoCard = 0;
+    let mouseX = null;            // posizione del mouse sul carosello, null = fuori
+    let perno = null;             // posizione del mouse "ammorbidita"
+    let forza = 0;                // 0 = nessun ingrandimento, 1 = ingrandimento pieno
+    let velAttuale = fermo ? 0 : VELOCITA;
+    let base = [];                // centro di ogni card senza trasformazioni
+
+    // Lunghezza esatta di una copia (inizio della seconda copia − inizio della prima)
+    const misura = () => {
+      metà = voci[lista.length].offsetLeft - voci[0].offsetLeft;
+      larg = voci[0].offsetWidth;
+      passoCard = voci.length > 1 ? voci[1].offsetLeft - voci[0].offsetLeft : larg;
+      base = voci.map(el => el.offsetLeft + el.offsetWidth / 2);
+    };
+    misura();
+    window.addEventListener('resize', misura);
+    window.addEventListener('load', misura);
+
+    if (conMouse) {
+      sezione.addEventListener('pointermove', e => { mouseX = e.clientX; });
+      sezione.addEventListener('pointerleave', () => { mouseX = null; });
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => { visibile = e.isIntersecting; }).observe(sezione);
+    }
+
+    // Avvicina "da" a "a" in modo morbido, uguale a qualsiasi frequenza dello schermo
+    const verso = (da, a, rapidità, dt) => da + (a - da) * (1 - Math.exp(-rapidità * dt));
+    const curva = v => v * v * (3 - 2 * v);   // smoothstep 0..1
+
+    const sfuma = dt => {
+      if (!passoCard) return;
+      const centro = window.innerWidth / 2;
+      const origine = sezione.getBoundingClientRect().left + x;
+
+      // Il mouse viene seguito con un leggero ritardo; uscendo, le card si sgonfiano piano
+      if (mouseX != null) perno = perno == null ? mouseX : verso(perno, mouseX, REATTIVITA * 1.5, dt);
+      forza = verso(forza, mouseX != null ? 1 : 0, REATTIVITA, dt);
+      if (forza < 0.001 && mouseX == null) { forza = 0; perno = null; }
+      const p = perno == null ? null : perno - origine;   // mouse nelle coordinate della fila
+
+      // 1) ingrandimento: massimo sotto il mouse, cala con una curva morbida (gaussiana)
+      const zoom = base.map(c => {
+        if (p == null || !forza) return 1;
+        const d = (c - p) / passoCard;
+        return 1 + (ZOOM - 1) * forza * Math.exp(-0.5 * (d / RAGGIO) ** 2);
+      });
+
+      // 2) le card ingrandite allargano la fila; il punto sotto il mouse resta fermo
+      const sposta = base.map(() => 0);
+      if (p != null && forza) {
+        const inizio = base[0] - passoCard / 2;
+        const slot = zoom.map(z => passoCard + larg * (z - 1));
+        const nuovoCentro = [];
+        let acc = inizio;
+        slot.forEach((s, i) => { nuovoCentro.push(acc + s / 2); acc += s; });
+        // dove cade il mouse nella fila nuova (stessa frazione della stessa card)
+        const kk = Math.max(0, Math.min(base.length - 1, Math.floor((p - inizio) / passoCard)));
+        const fraz = (p - (base[kk] - passoCard / 2)) / passoCard;
+        const pNuovo = nuovoCentro[kk] - slot[kk] / 2 + fraz * slot[kk];
+        const offset = p - pNuovo;
+        base.forEach((c, i) => { sposta[i] = nuovoCentro[i] + offset - c; });
+      }
+
+      voci.forEach((el, i) => {
+        const cx = origine + base[i] + sposta[i];
+        const d = Math.min(1, Math.abs(cx - centro) / centro);   // 0 al centro, 1 al bordo
+        const k = d * d;                                         // morbido al centro
+        const hover = (zoom[i] - 1) / (ZOOM - 1);                // 0..1
+        const scala = (1 - (1 - SCALA_MIN) * k) * zoom[i];
+        const opac = (1 - (1 - OPACITA_MIN) * k) * (1 - MENO_OPACITA_LATI * curva(Math.min(1, d / 0.6)));
+        el.style.transform = `translate3d(${sposta[i].toFixed(2)}px,0,0) scale(${scala.toFixed(4)})`;
+        el.style.opacity = (opac + (1 - opac) * hover).toFixed(3);
+        el.style.zIndex = Math.round(zoom[i] * 100);
+      });
+    };
+
+    const passo = ora => {
+      const dt = ultimo ? Math.min(0.05, (ora - ultimo) / 1000) : 0;
+      ultimo = ora;
+      if (visibile) {
+        // lo scorrimento rallenta fino a fermarsi sotto il mouse e riparte con calma
+        velAttuale = verso(velAttuale, mouseX != null || fermo ? 0 : VELOCITA, FRENATA, dt);
+        if (metà) {
+          x -= velAttuale * dt;
+          if (-x >= metà) x += metà;
+          traccia.style.transform = `translate3d(${x.toFixed(2)}px,0,0)`;
+        }
+        sfuma(dt);
+      }
+      requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  }
+}
+
 const inEvidenza = document.getElementById('lavori-in-evidenza');
 if (inEvidenza) {
   // Schema: uno largo, poi due affiancati (il secondo più in basso), e così via

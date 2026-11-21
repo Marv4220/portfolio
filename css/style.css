@@ -264,6 +264,46 @@ a.row { color: inherit; }
 .row:hover .num { color: var(--accent); }
 .row .count { color: var(--accent-2); }
 
+/* ----- Carosello progetti (sotto i servizi) -----
+   Opacità e dimensione di ogni immagine sono calcolate in js/main.js
+   in base alla distanza dal centro dello schermo. */
+.carousel {
+  --cw: clamp(130px, 13vw, 210px);          /* larghezza di una card */
+  position: relative;
+  overflow: hidden;
+  /* spazio sopra e sotto per la card ingrandita al 200% */
+  padding: calc(var(--cw) * 0.375 + 24px) 0;
+}
+.carousel-track {
+  display: flex;
+  gap: 6px;
+  width: max-content;
+  will-change: transform;
+}
+.carousel-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--cw);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  display: block;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+.carousel-item img,
+.carousel-item video,
+.carousel-item iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 0;
+  pointer-events: none;
+}
+@media (max-width: 700px) {
+  .carousel { --cw: 38vw; padding: 24px 0 48px; }
+}
+
 /* ----- Lavori (card) ----- */
 .work-grid {
   display: grid;

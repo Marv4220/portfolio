@@ -62,11 +62,63 @@ const PROGETTI = [
     software: "Blender, Substance Painter",
     anno: "2026",
     inEvidenza: true,
-    copertina: "img/progetti/Adidas/Adidas_01.webp",
+    copertina: "img/progetti/Product/adidas/adidas4.webp",
     media: [
-      ["img/progetti/Adidas/Adidas_02.webp", "img/progetti/Adidas/Adidas_03.webp"],
-      "img/progetti/Adidas/Adidas_04.webp",
-      "img/progetti/Adidas/Adidas_05.webp",
+      ["img/progetti/Product/adidas/adidas2.webp", "img/progetti/Product/adidas/adidas1.webp"],
+      "img/progetti/Product/adidas/adidas3.webp",
+      "img/progetti/Product/adidas/adidas5.webp",
+    ],
+  },
+
+  {
+    id: "dw",
+    titolo: { en: "DW", it: "DW" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2020",
+    inEvidenza: true,
+    copertina: "img/progetti/Product/dw/dw1.webp",
+    media: [
+      ["img/progetti/Product/dw/dw2.webp","img/progetti/Product/dw/dw3.webp"],
+      "img/progetti/Product/dw/dw4.webp",
+    ],
+  },
+
+  {
+    id: "jh",
+    titolo: { en: "Iron Cross", it: "Iron Cross" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2021",
+    inEvidenza: true,
+    copertina: "img/progetti/Product/jhguitar/jhguitar1.webp",
+    media: [
+      ["img/progetti/Product/jhguitar/jhguitar2.webp","img/progetti/Product/jhguitar/jhguitar4.webp"],
+      "img/progetti/Product/jhguitar/jhguitar3.webp",
+      ["img/progetti/Product/jhguitar/jhguitar5.webp","img/progetti/Product/jhguitar/jhguitar6.webp"],
+    ],
+  },
+
+  {
+    id: "marshall",
+    titolo: { en: "Marshall JCM 800", it: "Marshall JCM 800" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2021",
+    inEvidenza: true,
+    copertina: "img/progetti/Product/marshall/marshall1.webp",
+    media: [
+      ["img/progetti/Product/marshall/marshall3.webp","img/progetti/Product/marshall/marshall4.webp"],
+      "img/progetti/Product/marshall/marshall2.webp",
     ],
   },
 
@@ -80,12 +132,31 @@ const PROGETTI = [
     software: "Blender",
     anno: "2022",
     inEvidenza: true,
-    copertina: "img/progetti/Chees/Chees_04.webp",
+    copertina: "img/progetti/Product/chees/chees1.webp",
     media: [
-      ["img/progetti/Chees/Chees_01.webp","img/progetti/Chees/Chees_02.webp"],
-      "img/progetti/Chees/Chees_03.webp",
-      ["img/progetti/Chees/Chees_05.webp","img/progetti/Chees/Chees_04.webp"],
-      ["img/progetti/Chees/Chees_06.webp","img/progetti/Chees/Chees_07.webp"],
+      ["img/progetti/Product/chees/chees5.webp","img/progetti/Product/chees/chees4.webp"],
+      "img/progetti/Product/chees/chees3.webp",
+      ["img/progetti/Product/chees/chees2.webp","img/progetti/Product/chees/chees1.webp"],
+      ["img/progetti/Product/chees/chees6.webp","img/progetti/Product/chees/chees7.webp"],
+    ],
+  },
+
+  {
+    id: "beat",
+    titolo: { en: "Dr. Beat", it: "Dr. Beat" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2021",
+    inEvidenza: true,
+    copertina: "img/progetti/Product/dr.beat/dr.beat1.webp",
+    media: [
+      "img/progetti/Product/dr.beat/dr.beat5.webp",
+      ["img/progetti/Product/dr.beat/dr.beat1.webp","img/progetti/Product/dr.beat/dr.beat2.webp"],
+      ["img/progetti/Product/dr.beat/dr.beat3.webp","img/progetti/Product/dr.beat/dr.beat4.webp"],
+      ["img/progetti/Product/dr.beat/dr.beat6.webp","img/progetti/Product/dr.beat/dr.beat7.webp"],
     ],
   },
 
@@ -99,10 +170,113 @@ const PROGETTI = [
     software: "Blender",
     anno: "2026",
     inEvidenza: true,
-    copertina: "img/progetti/Biscuits/Biscuits_02.webp",
+    copertina: "img/progetti/Product/biscuits/biscuits2.webp",
     media: [
-      ["img/progetti/Biscuits/Biscuits_01.webp","img/progetti/Biscuits/Biscuits_02.webp"],
-      "img/progetti/Biscuits/Biscuits_03.webp",
+      ["img/progetti/Product/biscuits/biscuits1.webp","img/progetti/Product/biscuits/biscuits2.webp"],
+      "img/progetti/Product/biscuits/biscuits3.webp",
+    ],
+  },
+
+  {
+    id: "cushion",
+    titolo: { en: "Cushion", it: "Cushion" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2024",
+    inEvidenza: false,
+    copertina: "img/progetti/Product/cushion/cushion1.webp",
+    media: [
+      ["img/progetti/Product/cushion/cushion1.webp","img/progetti/Product/cushion/cushion2.webp"],
+      "img/progetti/Product/cushion/cushion3.webp",
+    ],
+  },
+
+  {
+    id: "montgomery",
+    titolo: { en: "Sofa", it: "Sofa" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2024",
+    inEvidenza: false,
+    copertina: "img/progetti/Product/montgomery/montgomery1.webp",
+    media: [
+      ["img/progetti/Product/montgomery/montgomery1.webp","img/progetti/Product/montgomery/montgomery2.webp"],
+      "img/progetti/Product/montgomery/montgomery3.webp",
+    ],
+  },
+
+  {
+    id: "sedia",
+    titolo: { en: "Bamboo", it: "Bamboo" },
+    categoria: "Product Visualization",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2020",
+    inEvidenza: false,
+    copertina: "img/progetti/Product/sediabamboo/sediabamboo1.webp",
+    media: [
+      ["img/progetti/Product/sediabamboo/sediabamboo1.webp","img/progetti/Product/sediabamboo/sediabamboo2.webp"],
+      "img/progetti/Product/sediabamboo/sediabamboo3.webp",
+      "img/progetti/Product/sediabamboo/sediabamboo4.webp",
+    ],
+  },
+
+  {
+    id: "torino",
+    titolo: { en: "Turin", it: "Torino" },
+    categoria: "ArchViz",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "3ds Max",
+    anno: "2025",
+    inEvidenza: true,
+    copertina: "img/progetti/ArchViz/torino/torino3.webp",
+    media: [
+      ["img/progetti/ArchViz/torino/torino1.webp","img/progetti/ArchViz/torino/torino2.webp"],
+      "img/progetti/ArchViz/torino/torino3.webp",
+    ],
+  },
+
+  {
+    id: "lugano",
+    titolo: { en: "Lugano", it: "Lugano" },
+    categoria: "ArchViz",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "3ds Max",
+    anno: "2025",
+    inEvidenza: true,
+    copertina: "img/progetti/ArchViz/lugano/lugano3.webp",
+    media: [
+      ["img/progetti/ArchViz/lugano/lugano1.webp","img/progetti/ArchViz/lugano/lugano2.webp"],
+      "img/progetti/ArchViz/lugano/lugano3.webp",
+    ],
+  },
+
+  {
+    id: "inter",
+    titolo: { en: "Inter", it: "Inter" },
+    categoria: "ArchViz",
+    frase: { en: "", it: "" },
+    testo: "",
+    cliente: { en: "", it: "" },
+    software: "Blender",
+    anno: "2026",
+    inEvidenza: true,
+    copertina: "img/progetti/ArchViz/inter/inter3.webp",
+    media: [
+      ["img/progetti/ArchViz/inter/inter1.webp","img/progetti/ArchViz/inter/inter2.webp"],
+      "img/progetti/ArchViz/inter/inter3.webp",
     ],
   },
 
@@ -116,12 +290,12 @@ const PROGETTI = [
     software: "Blender",
     anno: "2024/2026",
     inEvidenza: true,                      // true = compare anche in home
-    copertina: "img/progetti/Building_06.webp",   // immagine o video .mp4 per l'anteprima
+    copertina: "img/progetti/Modeling/buildings/buildings6.webp",   // immagine o video .mp4 per l'anteprima
     media: [
-      "img/progetti/Building_01.webp",                          // una immagine a tutta larghezza
-      ["img/progetti/Building_02.webp", "img/progetti/Building_03.webp"],   // due affiancate: tra parentesi quadre
-      ["img/progetti/Building_04.webp", "img/progetti/Building_05.webp"],
-      "img/progetti/Building_06.webp",
+      "img/progetti/Modeling/buildings/buildings1.webp",                          // una immagine a tutta larghezza
+      ["img/progetti/Modeling/buildings/buildings2.webp", "img/progetti/Modeling/buildings/buildings3.webp"],   // due affiancate: tra parentesi quadre
+      ["img/progetti/Modeling/buildings/buildings4.webp", "img/progetti/Modeling/buildings/buildings5.webp"],
+      "img/progetti/Modeling/buildings/buildings6.webp",
       // "https://www.youtube.com/watch?v=CODICE",           // un video YouTube
     ],
   },
