@@ -67,8 +67,15 @@ const conta = n => `${n} ${n === 1 ? ui('progetto') : ui('progetti')}`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-// Testo tradotto, con gli "a capo" (\n) trasformati in <br>
-const testo = v => esc(t(v)).replace(/\n/g, '<br>');
+// Testo tradotto, con gli "a capo" (\n) trasformati in <br>.
+// **parola** = titolo largo rosso, *parola* = corsivo grassetto
+const testo = v => esc(t(v))
+  .replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>')
+  .replace(/\*([^*\n]+?)\*/g, '<em>$1</em>')
+  .replace(/<\/strong>\n/g, '</strong>')   // il titolo largo va già a capo da solo
+  .replace(/\n/g, '<br>');
+// Lo stesso testo senza simboli, per titoli della scheda e attributi
+const semplice = v => String(t(v)).replace(/\*/g, '');
 
 function youtubeId(url) {
   const m = url.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/);
@@ -121,6 +128,117 @@ const categorie = typeof CATEGORIE !== 'undefined' ? CATEGORIE : [];
 const sito = typeof SITO !== 'undefined' ? SITO : {};
 const pagina = document.body.dataset.pagina || '';
 
+
+/* ---------- Stili delle scritte (da sito.js → stili) ----------
+   Ogni nome di sito.js corrisponde a uno o più elementi della pagina. */
+
+const SCRITTE = {
+  testo:                'body',
+  logo:                 '.logo',
+  menu:                 '.nav a, .lang button, .menu-btn',
+  etichette:            '.label, .hero .label, .footer-grid .label',
+  heroTitolo:           '.hero .display',
+  heroTitoloCorsivo:    '.hero .display em',
+  heroTitoloRiga2:      '.hero .display strong',
+  heroSottotitolo:      '.hero-foot, .hero-foot p',
+  titoliSezione:        '.title',
+  titoliSezioneCorsivo: '.title em',
+  titoliSezioneRiga2:   '.title strong',
+  categorie:            '.row h3',
+  categorieFrase:       '.row p',
+  cardTitolo:           '.card-info h3',
+  cardFrase:            '.card-info p',
+  cardCategoria:        '.card-info .tag',
+  chiSono:              '.intro .lead',
+  contattiFrase:        '.cta .display',
+  contattiFraseCorsivo: '.cta .display em',
+  contattiFraseRiga2:   '.cta .display strong',
+  contattiEmail:        '.cta-mail',
+  progettoTitolo:       '.project-hero .display',
+  progettoTesto:        '.story-body, .project-hero .lead',
+  progettoSuccessivo:   '.next-project .display',
+  footerTesto:          '.footer',
+  footerNome:           '.footer-big',
+};
+
+const COLORI = {
+  bianco: 'var(--text)', grigio: 'var(--muted)', rosso: 'var(--accent)',
+  verde: 'var(--accent-2)', nero: 'var(--bg)',
+};
+
+(function applicaStili() {
+  const stili = sito.stili || {};
+  const fontNome = f => String(f).trim().replace(/["']/g, '');
+  // Font di una scritta: il suo, oppure quello della scritta "madre" (heroTitoloCorsivo → heroTitolo)
+  const fontDi = k => (stili[k] && stili[k].font) ||
+    (/(Corsivo|Riga2)$/.test(k) ? fontDi(k.replace(/(Corsivo|Riga2)$/, '')) : null);
+
+  // 1) Regole CSS. "html body" davanti vince sullo stile base ma non sugli effetti al passaggio del mouse
+  const regole = [];
+  const famiglie = {};   // font → pesi, corsivo, larghezze usati
+  Object.entries(stili).forEach(([k, s]) => {
+    const sel = SCRITTE[k];
+    if (!sel || !s) return;
+    const p = [];
+    if (s.font) p.push(`font-family:"${fontNome(s.font)}", sans-serif`);
+    if (s.peso) p.push(`font-weight:${Number(s.peso)}`);
+    if (s.colore) p.push(`color:${COLORI[s.colore] || s.colore}`);
+    if (s.corsivo != null) p.push(`font-style:${s.corsivo ? 'italic' : 'normal'}`);
+    if (s.maiuscolo != null) p.push(`text-transform:${s.maiuscolo ? 'uppercase' : 'none'}`);
+    if (s.larghezza) p.push(`font-stretch:${Number(s.larghezza)}%`);
+    else if (s.font) p.push('font-stretch:100%');
+    if (p.length) {
+      const prefissato = sel.split(',').map(x => x.trim() === 'body' ? 'html body' : `html body ${x.trim()}`).join(', ');
+      regole.push(`${prefissato}{${p.join(';')}}`);
+    }
+
+    const f = fontDi(k);
+    if (f) {
+      const fam = famiglie[fontNome(f)] ||= { pesi: new Set([400]), corsivo: false, larghezze: new Set() };
+      fam.pesi.add(Number(s.peso) || 400);
+      if (s.corsivo) fam.corsivo = true;
+      if (s.larghezza) fam.larghezze.add(Number(s.larghezza));
+    }
+  });
+  if (regole.length) {
+    const st = document.createElement('style');
+    st.id = 'stili-scritte';
+    st.textContent = regole.join('\n');
+    document.head.appendChild(st);
+  }
+
+  // 2) Carica i font da Google Fonts. Se una combinazione non esiste
+  //    (es. il font non ha il corsivo o la larghezza) riprova con meno opzioni.
+  Object.entries(famiglie).forEach(([nomeFont, fam]) => {
+    const pesi = [...fam.pesi].sort((a, b) => a - b);
+    const larg = [...fam.larghezze].sort((a, b) => a - b);
+    const url = (conCorsivo, conLarghezza) => {
+      const assi = [], tuple = [];
+      const ital = conCorsivo ? [0, 1] : [null];
+      const wdth = conLarghezza && larg.length ? [...new Set([100, ...larg])].sort((a, b) => a - b) : [null];
+      if (conCorsivo) assi.push('ital');
+      if (wdth[0] != null) assi.push('wdth');
+      assi.push('wght');
+      ital.forEach(i => wdth.forEach(w => pesi.forEach(p =>
+        tuple.push([i, w, p].filter(v => v != null).join(',')))));
+      return `https://fonts.googleapis.com/css2?family=${encodeURIComponent(nomeFont).replace(/%20/g, '+')}:${assi.join(',')}@${tuple.join(';')}&display=swap`;
+    };
+    const tentativi = [
+      url(fam.corsivo, true), url(false, true), url(fam.corsivo, false), url(false, false),
+      `https://fonts.googleapis.com/css2?family=${encodeURIComponent(nomeFont).replace(/%20/g, '+')}&display=swap`,
+    ].filter((u, i, a) => a.indexOf(u) === i);
+    const prova = i => {
+      if (i >= tentativi.length) return;
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = tentativi[i];
+      l.onerror = () => { l.remove(); prova(i + 1); };
+      document.head.appendChild(l);
+    };
+    prova(0);
+  });
+})();
+
 // Legge un valore da sito.js, es. leggi("home.titolo")
 const leggi = percorso => percorso.split('.').reduce((o, k) => (o == null ? o : o[k]), sito);
 
@@ -138,7 +256,7 @@ function cardHTML(p, cls = '') {
   const frase = t(p.frase);
   return `
     <a href="${linkProgetto(p)}" class="card ${cls}" data-reveal>
-      <div class="card-media">${mediaHTML(p.copertina || '', { alt: t(p.titolo), sfondo: true })}</div>
+      <div class="card-media">${mediaHTML(p.copertina || '', { alt: semplice(p.titolo), sfondo: true })}</div>
       <div class="card-info">
         <div><h3>${testo(p.titolo)}</h3>${frase ? `<p>${testo(frase)}</p>` : ''}</div>
         <span class="tag">${esc(nomeCategoria(p.categoria))}</span>
@@ -344,8 +462,8 @@ if (traccia) {
       [lista[i], lista[j]] = [lista[j], lista[i]];
     }
     const voce = p => `
-      <a href="${linkProgetto(p)}" class="carousel-item" aria-label="${esc(t(p.titolo))}">
-        ${mediaHTML(p.copertina, { alt: t(p.titolo), sfondo: true })}
+      <a href="${linkProgetto(p)}" class="carousel-item" aria-label="${esc(semplice(p.titolo))}">
+        ${mediaHTML(p.copertina, { alt: semplice(p.titolo), sfondo: true })}
       </a>`;
     // Due copie in fila: quando la prima è uscita del tutto si riparte da capo senza salti
     traccia.innerHTML = lista.map(voce).join('') + lista.map(voce).join('');
@@ -535,7 +653,7 @@ if (paginaProgetto) {
   } else {
     const titolo = t(p.titolo);
     const frase = t(p.frase);
-    document.title = `${titolo.replace(/\s*\n\s*/g, ' ')} — ${nome}`;
+    document.title = `${semplice(titolo).replace(/\s*\n\s*/g, ' ')} — ${nome}`;
 
     const dati = [
       [ui('categoria'), p.categoria && `<a href="lavori.html?categoria=${encodeURIComponent(p.categoria)}">${esc(nomeCategoria(p.categoria))}</a>`],
@@ -582,7 +700,7 @@ if (paginaProgetto) {
       ${simili.length ? `
       <section class="section">
         <div class="section-head"><p class="label">${ui('altriLavori')} ${esc(nomeCategoria(p.categoria))}</p></div>
-        <div class="work-grid">${simili.map(x => cardHTML(x)).join('')}</div>
+        <div class="work-grid simili">${simili.map(x => cardHTML(x)).join('')}</div>
       </section>` : ''}`;
   }
 }

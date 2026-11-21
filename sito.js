@@ -9,6 +9,8 @@
    - ogni riga finisce con la virgola ,
    - \n dentro un testo = vai a capo
    - un testo vuoto "" nasconde quell'elemento
+   - *parola*   = parte "corsivo" della scritta (vedi STILI in fondo)
+   - **parola** = "seconda riga" della scritta, su una riga sua (vedi STILI in fondo)
 
    DUE LINGUE (inglese / italiano):
    - testo uguale in entrambe:   titolo: "Digital Maquettes",
@@ -54,15 +56,15 @@ const SITO = {
   /* ----- Home ----- */
   home: {
     etichetta: {
-      en: "A world made of 3D — since 2017",
-      it: "Un mondo di 3D — dal 2017",
+      en: "A 3D World — since 2017",
+      it: "Un mondo 3D — dal 2017",
     },
     titolo: {
-      en: "Make everything, \nfrom nothing.",
-      it: "Spazi che ancora non esistono, resi reali.",
+      en: "Make *everything,*\n**from nothing.**",
+      it: "Spazi che *ancora non esistono,*\n**resi reali.**",
     },
     sottotitolo: {
-      en: "ArchViz, Product Visualization, 3D modeling\nand more...",
+      en: "ArchViz, Product Visualization, 3D modeling\nand much more...",
       it: "ArchViz, Product Visualization, 3D modeling\ne molto altro...",
     },
 
@@ -72,8 +74,8 @@ const SITO = {
     },
     chiSonoBottone: { en: "Let's work together", it: "Lavoriamo insieme" },
 
-    serviziTitolo: { en: "What I can do for you", it: "Cosa posso fare per te" },
-    lavoriTitolo:  { en: "Recent projects",       it: "Progetti recenti" },
+    serviziTitolo: { en: "What I can do *for you*", it: "Cosa posso fare *per te*" },
+    lavoriTitolo:  { en: "*Recent* projects",       it: "Progetti *recenti*" },
 
     citazione: {                        // "" per togliere la sezione
       en: "",
@@ -94,16 +96,16 @@ const SITO = {
      La frase grande che invita a scriverti, diversa per ogni pagina. */
   cta: {
     home: {
-      en: "Got a project in mind? Let's show it.",
-      it: "Hai un progetto in mente? Facciamolo vedere.",
+      en: "Got a project *in mind?*\n**Let's show it.**",
+      it: "Hai un progetto *in mente?*\n**Facciamolo vedere.**",
     },
     lavori: {
-      en: "Is the next project yours?",
-      it: "Il prossimo progetto è il tuo?",
+      en: "Is the next project\n**yours?**",
+      it: "Il prossimo progetto\n**è il tuo?**",
     },
     progetto: {
-      en: "Want something similar?",
-      it: "Vuoi qualcosa di simile?",
+      en: "Want something\n**similar?**",
+      it: "Vuoi qualcosa\n**di simile?**",
     },
   },
 
@@ -114,6 +116,68 @@ const SITO = {
       en: "I reply within 24 hours.\nIn Italy and remotely.",
       it: "Rispondo entro 24 ore.\nIn Italia e da remoto.",
     },
+  },
+
+  /* ----- STILI: font, colore e peso di ogni scritta -----
+     Ogni riga è una scritta del sito. Per ognuna puoi scrivere:
+       font:      nome di un font di Google Fonts, es. "Poppins", "Archivo", "Inter",
+                  "Playfair Display" (scritto come su fonts.google.com).
+                  Il sito lo carica da solo.
+       peso:      100 sottile … 400 normale … 700 grassetto … 900 nerissimo
+                  (non tutti i font hanno tutti i pesi)
+       colore:    un colore della palette: "bianco", "grigio", "rosso", "verde", "nero"
+                  oppure un codice come "#FF5A4E"
+       corsivo:   true / false
+       maiuscolo: true / false
+       larghezza: solo per i font che la permettono (es. Archivo):
+                  75 stretto … 100 normale … 125 largo
+     Quello che non scrivi resta com'è. Togli una riga intera per lasciare lo stile di base.
+
+     Le righe "…Corsivo" e "…Riga2" sono le parti scritte tra *asterischi*
+     e tra **doppi asterischi** nei testi qui sopra. */
+  stili: {
+    testo:          { font: "Poppins", peso: 400, colore: "bianco" },   // tutto il resto del sito
+    logo:           { font: "Archivo", peso: 500, colore: "bianco", larghezza: 125, maiuscolo: true },
+    menu:           { font: "Poppins", peso: 400, colore: "bianco" },
+    etichette:      { font: "Poppins", peso: 500, colore: "grigio", maiuscolo: true },   // le scritte piccole sopra i titoli
+
+    // Hero (prima schermata)
+    heroTitolo:        { font: "Poppins", peso: 200, colore: "bianco" },
+    heroTitoloCorsivo: { font: "Poppins", peso: 700, corsivo: true },
+    heroTitoloRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
+    heroSottotitolo:   { font: "Poppins", peso: 400, colore: "grigio" },
+
+    // Titoli delle sezioni (Servizi, Lavori selezionati...)
+    titoliSezione:        { font: "Poppins", peso: 400, colore: "bianco" },
+    titoliSezioneCorsivo: { font: "Poppins", peso: 700, corsivo: true },
+    titoliSezioneRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
+
+    // Servizi
+    categorie:      { font: "Archivo", peso: 500, colore: "bianco", larghezza: 125, maiuscolo: true },
+    categorieFrase: { font: "Poppins", peso: 400, colore: "grigio" },
+
+    // Card dei progetti
+    cardTitolo:     { font: "Poppins", peso: 600, colore: "bianco" },
+    cardFrase:      { font: "Poppins", peso: 400, colore: "grigio" },
+    cardCategoria:  { font: "Poppins", peso: 400, colore: "verde" },
+
+    // Chi sono
+    chiSono:        { font: "Poppins", peso: 200, colore: "bianco" },
+
+    // Fascia contatti
+    contattiFrase:        { font: "Poppins", peso: 200, colore: "bianco" },
+    contattiFraseCorsivo: { font: "Poppins", peso: 700, corsivo: true },
+    contattiFraseRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
+    contattiEmail:        { font: "Poppins", peso: 300, colore: "bianco", corsivo: true },
+
+    // Pagina progetto
+    progettoTitolo:     { font: "Poppins", peso: 400, colore: "bianco" },
+    progettoTesto:      { font: "Poppins", peso: 400, colore: "bianco" },
+    progettoSuccessivo: { font: "Archivo", peso: 900, colore: "bianco", larghezza: 125, maiuscolo: true },
+
+    // Piè di pagina
+    footerTesto:    { font: "Poppins", peso: 400, colore: "bianco" },
+    footerNome:     { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
   },
 
 };

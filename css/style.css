@@ -15,7 +15,11 @@
   --line: rgba(194, 184, 178, 0.16);   /* linee di separazione */
   --accent: #BB0A21;       /* accento principale (Brick Red) */
   --accent-2: #3C887E;     /* accento secondario (Dark Cyan) */
-  --font: "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Due famiglie: Poppins per i testi (normale / corsivo grassetto),
+     Archivo Expanded Black per i titoli grandi, tutto maiuscolo */
+  --font: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: "Archivo", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --shadow-display: 0.035em 0.035em 0 rgba(0, 0, 0, 0.55);   /* ombra netta dei titoli */
   --pad: 20px;             /* margine laterale della pagina */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -32,8 +36,8 @@ body {
   color: var(--text);
   font-family: var(--font);
   font-size: 18px;
-  line-height: 1.45;
-  letter-spacing: -0.02em;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -43,29 +47,64 @@ img { display: block; max-width: 100%; }
 
 .muted { color: var(--muted); }
 
-/* ----- Testi grandi ----- */
+/* ----- Testi grandi -----
+   Nei testi di sito.js:  *parola*  = corsivo grassetto (Poppins)
+                          **parola** = maiuscolo largo rosso (Archivo) */
+
+/* Stile "titolo largo": Archivo espanso, nerissimo, maiuscolo */
+.display strong,
+.title strong,
+.next-project .display,
+.footer-big,
+.row h3,
+.logo {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 900;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
 .display {
-  font-size: clamp(2.6rem, 7.4vw, 7.5rem);
-  font-weight: 500;
-  line-height: 0.98;
-  letter-spacing: -0.045em;
+  font-size: clamp(2.3rem, 6.4vw, 6.4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  text-shadow: var(--shadow-display);
+}
+.display em,
+.title em,
+.lead em {
+  font-style: italic;
+  font-weight: 700;
+}
+.display strong {
+  display: block;
+  color: var(--accent);
+  font-size: min(1.08em, 8.6vw);   /* sui telefoni non esce dallo schermo */
+  line-height: 0.92;
+  margin-top: 0.06em;
 }
 .title {
-  font-size: clamp(2rem, 4.6vw, 4.2rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-}
-.lead {
-  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  font-size: clamp(1.9rem, 4.2vw, 3.8rem);
   font-weight: 400;
-  line-height: 1.18;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+.title strong { color: var(--accent); }
+.lead {
+  font-size: clamp(1.25rem, 2.2vw, 1.9rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 .label {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--muted);
-  letter-spacing: 0;
 }
 
 /* ----- Intestazione ----- */
@@ -112,7 +151,7 @@ img { display: block; max-width: 100%; }
 .lang button:hover,
 .lang button[aria-pressed="true"] { color: var(--text); opacity: 1; }
 
-.logo { font-weight: 600; font-size: 18px; letter-spacing: -0.03em; }
+.logo { font-size: 15px; }
 .nav { display: flex; gap: 28px; font-size: 16px; }
 .nav a { position: relative; }
 .nav a::after {
@@ -148,7 +187,7 @@ img { display: block; max-width: 100%; }
   padding: 120px var(--pad) 48px;
 }
 .hero .label { margin-bottom: 24px; }
-.hero .display { max-width: 15ch; }
+.hero .display { max-width: 20ch; }
 .hero-foot {
   display: flex;
   justify-content: space-between;
@@ -222,6 +261,9 @@ img { display: block; max-width: 100%; }
   .intro { grid-template-columns: 1fr 2fr; }
 }
 .intro .lead { max-width: 30ch; }
+@media (min-width: 900px) {
+  .intro .lead { max-width: 75ch; }   /* su computer: quasi tutta la colonna di destra */
+}
 .intro .more { margin-top: 32px; }
 
 /* ----- Link con freccia ----- */
@@ -250,11 +292,11 @@ a.row { color: inherit; }
 .row .count { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
 .row .num { font-size: 14px; color: var(--muted); }
 .row h3 {
-  font-size: clamp(1.7rem, 3.6vw, 3.2rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.4rem, 3vw, 2.7rem);
+  line-height: 1;
+  transition: color 0.3s;
 }
+.row:hover h3 { color: var(--accent); }
 .row p { color: var(--muted); font-size: 18px; align-self: center; }
 @media (min-width: 900px) {
   .row { grid-template-columns: 80px 1.4fr 1fr; align-items: baseline; }
@@ -339,15 +381,48 @@ a.row { color: inherit; }
   pointer-events: none;
 }
 .card:hover .card-media img { transform: scale(1.04); }
+
+/* Copertine del carosello in bianco e nero, a colori al passaggio del mouse.
+   Togli questo blocco per averle sempre a colori. */
+.carousel-item > * {
+  filter: grayscale(1);
+  transition: filter 0.6s var(--ease);
+}
+.carousel-item:hover > *,
+.carousel-item:focus-visible > * { filter: grayscale(0); }
+/* Su telefono e tablet non c'è il passaggio del mouse: restano a colori */
+@media (hover: none) {
+  .carousel-item > * { filter: none; }
+}
 .card-info {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   padding-top: 14px;
 }
-.card-info h3 { font-size: 20px; font-weight: 500; letter-spacing: -0.03em; }
+.card-info h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
 .card-info p { color: var(--muted); font-size: 18px; }
 .card-info .tag { color: var(--accent-2); font-size: 14px; white-space: nowrap; padding-top: 4px; }
+
+/* "Altri lavori" in fondo alla pagina progetto: card a metà grandezza */
+.work-grid.simili { grid-template-columns: 1fr 1fr; gap: 32px 12px; }
+@media (min-width: 900px) {
+  .work-grid.simili { grid-template-columns: repeat(4, 1fr); gap: 40px 16px; }
+}
+.work-grid.simili .card-info { flex-direction: column; gap: 4px; padding-top: 10px; }
+.work-grid.simili .card-info h3 { font-size: 16px; }
+.work-grid.simili .card-info p { font-size: 14px; }
+.work-grid.simili .card-info .tag { font-size: 12px; padding-top: 0; }
+/* in bianco e nero, a colori al passaggio del mouse */
+.work-grid.simili .card-media > * {
+  filter: grayscale(1);
+  transition: filter 0.6s var(--ease), transform 1.1s var(--ease);
+}
+.work-grid.simili .card:hover .card-media > *,
+.work-grid.simili .card:focus-visible .card-media > * { filter: grayscale(0); }
+@media (hover: none) {
+  .work-grid.simili .card-media > * { filter: none; }
+}
 
 /* Vista a elenco (pagina Lavori) */
 .toolbar {
@@ -398,9 +473,10 @@ a.row { color: inherit; }
 .cta-mail {
   display: inline-block;
   margin-top: 48px;
-  font-size: clamp(1.6rem, 4vw, 3.4rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.4rem, 3.6vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.03em;
   border-bottom: 2px solid var(--accent);
   transition: color 0.3s;
 }
@@ -426,12 +502,12 @@ a.row { color: inherit; }
 .footer-grid a:hover { color: var(--accent-2); }
 .footer-big {
   margin-top: 96px;
-  font-size: clamp(2.5rem, 13vw, 14rem);
+  font-size: clamp(1.6rem, 7.2vw, 9rem);
   overflow: hidden;
-  font-weight: 500;
-  line-height: 0.85;
-  letter-spacing: -0.06em;
+  line-height: 0.9;
   white-space: nowrap;
+  color: var(--accent);
+  text-shadow: var(--shadow-display);
 }
 .footer-bottom {
   display: flex;
@@ -485,7 +561,7 @@ a.row { color: inherit; }
   border-top: 1px solid var(--line);
   transition: color 0.3s;
 }
-.next-project .display { display: block; margin-top: 16px; }
+.next-project .display { display: block; margin-top: 16px; font-size: clamp(1.8rem, 5vw, 4.6rem); line-height: 0.95; }
 .next-project:hover { color: var(--accent); }
 .images + .images { margin-top: 20px; }
 
