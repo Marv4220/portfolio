@@ -141,18 +141,19 @@ const SITO = {
     menu:           { font: "Poppins", peso: 400, colore: "bianco" },
     etichette:      { font: "Poppins", peso: 500, colore: "grigio", maiuscolo: true },   // le scritte piccole sopra i titoli
 
-    // Hero (prima schermata)
+    // Hero (prima schermata): "Creare" / "il mondo," / "DAL NULLA." / "ArchViz, Product Visualization..."
     heroTitolo:        { font: "Poppins", peso: 200, colore: "bianco" },
     heroTitoloCorsivo: { font: "Poppins", peso: 700, corsivo: true },
     heroTitoloRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
     heroSottotitolo:   { font: "Poppins", peso: 400, colore: "grigio" },
 
-    // Titoli delle sezioni (Servizi, Lavori selezionati...)
-    titoliSezione:        { font: "Poppins", peso: 400, colore: "bianco" },
+    // Titoli delle sezioni: "Cosa posso fare per te", "Progetti recenti"
+    // (i testi sono sopra, in home → serviziTitolo e lavoriTitolo)
+    titoliSezione:       { font: "Poppins", peso: 200, colore: "bianco" },
     titoliSezioneCorsivo: { font: "Poppins", peso: 700, corsivo: true },
     titoliSezioneRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
 
-    // Servizi
+    // Servizi: i nomi delle categorie ("ARCHVIZ"...) e la frase accanto
     categorie:      { font: "Archivo", peso: 500, colore: "bianco", larghezza: 125, maiuscolo: true },
     categorieFrase: { font: "Poppins", peso: 400, colore: "grigio" },
 
@@ -164,7 +165,7 @@ const SITO = {
     // Chi sono
     chiSono:        { font: "Poppins", peso: 200, colore: "bianco" },
 
-    // Fascia contatti
+    // Fascia contatti in fondo: "Hai un progetto in mente?" / "FACCIAMOLO VEDERE." / l'email
     contattiFrase:        { font: "Poppins", peso: 200, colore: "bianco" },
     contattiFraseCorsivo: { font: "Poppins", peso: 700, corsivo: true },
     contattiFraseRiga2:   { font: "Archivo", peso: 900, colore: "rosso", larghezza: 125, maiuscolo: true },
