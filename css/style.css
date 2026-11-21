@@ -22,6 +22,7 @@
   --shadow-display: 0.035em 0.035em 0 rgba(0, 0, 0, 0.55);   /* ombra netta dei titoli */
   --pad: 20px;             /* margine laterale della pagina */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --radius: 6px;           /* angoli arrotondati di card e carosello (0 = squadrati) */
 }
 @media (min-width: 900px) {
   :root { --pad: 32px; }
@@ -323,6 +324,7 @@ a.row { color: inherit; }
   will-change: transform;
 }
 .carousel-item {
+  border-radius: var(--radius);
   position: relative;
   flex: 0 0 auto;
   width: var(--cw);
@@ -359,6 +361,8 @@ a.row { color: inherit; }
 }
 .card { display: block; }
 .card-media {
+  border-radius: var(--radius);
+  isolation: isolate;      /* Safari: mantiene gli angoli durante lo zoom */
   overflow: hidden;
   background: var(--bg-soft);
   aspect-ratio: 4 / 5;
