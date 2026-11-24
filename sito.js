@@ -155,7 +155,7 @@ const SITO = {
 
     // Servizi: i nomi delle categorie ("ARCHVIZ"...) e la frase accanto
     categorie:      { font: "Archivo", peso: 500, colore: "bianco", larghezza: 125, maiuscolo: true },
-    categorieFrase: { font: "Poppins", peso: 400, colore: "grigio" },
+    categorieFrase: { font: "Poppins", peso: 400, colore: "bianco" },
 
     // Card dei progetti
     cardTitolo:     { font: "Poppins", peso: 600, colore: "bianco" },

@@ -11,10 +11,10 @@
   --bg-soft: #1F1F1F;      /* riquadri e fascia contatti (Carbon Black) */
   --bg-rgb: 16, 16, 16;    /* lo sfondo in RGB, per le trasparenze */
   --text: #F4F0ED;         /* testo principale (bianco caldo) */
-  --muted: #C2B8B2;        /* testo secondario (Silver) */
+  --muted: #1F7A8C;        /* testo secondario (Silver) */
   --line: rgba(194, 184, 178, 0.16);   /* linee di separazione */
-  --accent: #BB0A21;       /* accento principale (Brick Red) */
-  --accent-2: #3C887E;     /* accento secondario (Dark Cyan) */
+  --accent: #C2B8B2;       /* accento principale (Brick Red) */
+  --accent-2: #1F7A8C;     /* accento secondario (Dark Cyan) */
   /* Due famiglie: Poppins per i testi (normale / corsivo grassetto),
      Archivo Expanded Black per i titoli grandi, tutto maiuscolo */
   --font: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -291,7 +291,7 @@ img { display: block; max-width: 100%; }
 }
 a.row { color: inherit; }
 .row .count { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
-.row .num { font-size: 14px; color: var(--muted); }
+.row .num { font-size: 14px; color: var(--accent); }
 .row h3 {
   font-size: clamp(1.4rem, 3vw, 2.7rem);
   line-height: 1;
